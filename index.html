@@ -21,28 +21,27 @@
       width: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start; /* Align content to the top */
-      align-items: center; /* Center the content horizontally */
+      justify-content: flex-start;
+      align-items: center;
       background: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1920&q=100') no-repeat center center fixed;
       background-size: cover;
       font-family: sans-serif;
     }
 
-    /* Move the title text to the top with 1 cm padding */
     .title {
       font-size: 2rem;
       color: white;
       background: rgba(0, 0, 0, 0.5);
       border-radius: 10px;
       padding: 15px;
-      position: absolute; /* Position it absolutely */
-      top: 1cm; /* Move the text 1 cm down from the top */
+      position: absolute;
+      top: 1cm;
       z-index: 1;
     }
 
     audio {
       position: absolute;
-      bottom: 2cm; /* Move the audio player 2 cm up from the bottom */
+      bottom: 2cm;
       width: 90%;
       max-width: 400px;
       z-index: 1;
@@ -50,18 +49,55 @@
       border-radius: 8px;
       padding: 10px;
     }
+
+    .metadata {
+      font-size: 1rem;
+      color: white;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 5px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
-  <!-- Title Text Centered but 1 cm down from the top -->
   <div class="title">Radetzky FM</div>
 
-  <!-- Audio Player -->
-  <audio controls autoplay>
+  <audio id="audioPlayer" controls autoplay>
     <source src="https://katolikusradio.hu:8001/radetzkyfm" type="audio/mpeg">
     A böngésződ nem támogatja az audiólejátszást.
   </audio>
 
-  <script src="app.js"></script>
+  <div class="metadata" id="metadata">Loading metadata...</div>
+
+  <script>
+    const audioPlayer = document.getElementById("audioPlayer");
+    const metadataDisplay = document.getElementById("metadata");
+
+    // Function to fetch metadata from Icecast
+    function fetchMetadata() {
+      const streamUrl = 'https://katolikusradio.hu:8001/radetzkyfm'; // Replace with your Icecast stream URL
+      fetch(streamUrl + '/status-json.xsl')  // Icecast status URL for metadata
+        .then(response => response.json())
+        .then(data => {
+          if (data.icestats.source && data.icestats.source.title) {
+            const trackInfo = data.icestats.source.title;
+            metadataDisplay.innerHTML = `Now Playing: ${trackInfo}`;
+          } else {
+            metadataDisplay.innerHTML = 'No track information available.';
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching metadata:', error);
+          metadataDisplay.innerHTML = 'Error loading metadata.';
+        });
+    }
+
+    // Update metadata every 5 seconds
+    setInterval(fetchMetadata, 5000);
+
+    // Fetch metadata on initial load
+    fetchMetadata();
+  </script>
 </body>
 </html>
