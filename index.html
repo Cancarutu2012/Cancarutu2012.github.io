@@ -101,7 +101,7 @@
       symbol.classList.add('symbol');
 
       // Randomize symbols (dots, stars, or other shapes)
-      const symbols = ['●', '★', '✦', '✧', '○'];
+      const symbols = ['●', '○'];
       symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
 
       // Randomize starting and ending positions
@@ -131,7 +131,7 @@
     }
 
     // Generate symbols continuously
-    setInterval(createSymbol, 25); // New symbol every 300ms
+    setInterval(createSymbol, 1005); // New symbol every 300ms
   </script>
 </body>
 </html>
