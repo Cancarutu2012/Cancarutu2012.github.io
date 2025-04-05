@@ -1,67 +1,126 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Radetzky FM</title>
-
-  <!-- PWA Manifest -->
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#ffffff" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Radetzky FM" />
-  <link rel="apple-touch-icon" href="icons/icon-192.png" />
-
+  <title>Radetzky FM - Fixed Blue Gradient</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start; /* Align content to the top */
-      align-items: center; /* Center the content horizontally */
-      background: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1920&q=100') no-repeat center center fixed;
-      background-size: cover;
+      overflow: hidden;
       font-family: sans-serif;
     }
 
-    /* Move the title text to the top with 1 cm padding */
+    /* Static blue gradient background */
+    body {
+      background: linear-gradient(to bottom, #001a4d, #003366); /* Fixed blue shades */
+    }
+
     .title {
       font-size: 2rem;
       color: white;
+      position: absolute;
+      top: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
       background: rgba(0, 0, 0, 0.5);
       border-radius: 10px;
-      padding: 15px;
-      position: absolute; /* Position it absolutely */
-      top: 1cm; /* Move the text 1 cm down from the top */
-      z-index: 1;
+      padding: 10px;
+      z-index: 2;
     }
 
     audio {
       position: absolute;
-      bottom: 2cm; /* Move the audio player 2 cm up from the bottom */
+      bottom: 2cm;
+      left: 50%;
+      transform: translateX(-50%);
       width: 90%;
       max-width: 400px;
-      z-index: 1;
+      z-index: 2;
       background: rgba(255, 255, 255, 0.85);
       border-radius: 8px;
       padding: 10px;
     }
+
+    .background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .symbol {
+      position: absolute;
+      font-size: 20px;
+      opacity: 0.8;
+      color: rgba(255, 255, 255, 0.7);
+      animation: float linear infinite;
+    }
+
+    @keyframes float {
+      from {
+        transform: translate(var(--start-x), var(--start-y));
+        opacity: 1;
+      }
+      to {
+        transform: translate(var(--end-x), var(--end-y));
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- Title Text Centered but 1 cm down from the top -->
   <div class="title">Radetzky FM</div>
-
-  <!-- Audio Player -->
   <audio controls autoplay>
     <source src="https://katolikusradio.hu:8001/radetzkyfm" type="audio/mpeg">
     A böngésződ nem támogatja az audiólejátszást.
   </audio>
+  <div class="background" id="background"></div>
 
-  <script src="app.js"></script>
+  <script>
+    const background = document.getElementById('background');
+
+    // Function to create symbols with random paths
+    function createSymbol() {
+      const symbol = document.createElement('div');
+      symbol.classList.add('symbol');
+
+      // Randomize symbols (dots, stars, or other shapes)
+      const symbols = ['●', '★', '✦', '✧', '○'];
+      symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+      // Randomize starting and ending positions
+      const startX = Math.random() * window.innerWidth + 'px';
+      const startY = Math.random() * window.innerHeight + 'px';
+      const endX = Math.random() * window.innerWidth + 'px';
+      const endY = Math.random() * window.innerHeight + 'px';
+
+      // Set CSS variables for symbol movement
+      symbol.style.setProperty('--start-x', startX);
+      symbol.style.setProperty('--start-y', startY);
+      symbol.style.setProperty('--end-x', endX);
+      symbol.style.setProperty('--end-y', endY);
+
+      // Randomize size and animation duration
+      const size = Math.random() * 20 + 10; // Random size between 10px and 30px
+      const duration = Math.random() * 10 + 5; // Random duration between 5s and 15s
+      symbol.style.fontSize = `${size}px`;
+      symbol.style.animationDuration = `${duration}s`;
+
+      background.appendChild(symbol);
+
+      // Remove symbol after animation ends to prevent buildup
+      symbol.addEventListener('animationend', () => {
+        background.removeChild(symbol);
+      });
+    }
+
+    // Generate symbols continuously
+    setInterval(createSymbol, 300); // New symbol every 300ms
+  </script>
 </body>
 </html>
