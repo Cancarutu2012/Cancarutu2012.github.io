@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Radetzky FM</title>
 
-  <!-- PWA Manifest -->
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#ffffff" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -80,6 +79,8 @@
       fetch(streamUrl + '/status-json.xsl')  // Icecast status URL for metadata
         .then(response => response.json())
         .then(data => {
+          console.log('Icecast Metadata:', data);  // Debugging log to see raw data
+
           if (data.icestats.source && data.icestats.source.title) {
             const trackInfo = data.icestats.source.title;
             metadataDisplay.innerHTML = `Now Playing: ${trackInfo}`;
