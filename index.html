@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RadetzkyFM</title>
+  <title>Radetzky FM</title>
 
   <!-- Manifest for app metadata -->
   <link rel="manifest" href="manifest.json">
@@ -131,7 +131,17 @@
     }
 
     // Generate symbols continuously
-    setInterval(createSymbol, 1005); // New symbol every 300ms
+    const symbolInterval = setInterval(createSymbol, 300); // New symbol every 300ms
+
+    // Function to reset all symbols every 100 seconds
+    function resetSymbols() {
+      clearInterval(symbolInterval); // Stop symbol generation
+      background.innerHTML = ''; // Clear all existing symbols
+      setInterval(createSymbol, 10000); // Restart symbol generation
+    }
+
+    // Reset symbols every 100000ms (100 seconds)
+    setInterval(resetSymbols, 100000);
   </script>
 </body>
 </html>
