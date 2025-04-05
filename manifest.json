@@ -1,10 +1,10 @@
 {
   "name": "RadetzkyFM",
   "short_name": "RFM",
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#ffffff",
+  "background_color": "#003366",
+  "theme_color": "#001a4d",
   "icons": [
     {
       "src": "icons/icon-192.png",

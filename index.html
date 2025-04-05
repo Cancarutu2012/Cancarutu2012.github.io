@@ -3,7 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Radetzky FM</title>
+  <title>RadetzkyFM</title>
+
+  <!-- Manifest for app metadata -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Meta tags for iOS fullscreen support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Radetzky FM">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
   <style>
     html, body {
       margin: 0;
@@ -29,7 +39,7 @@
       border-radius: 10px;
       padding: 10px;
       z-index: 2;
-      white-space: nowrap; /* Prevent the text from wrapping onto multiple lines */
+      white-space: nowrap; /* Prevent text from wrapping */
     }
 
     audio {
@@ -121,7 +131,7 @@
     }
 
     // Generate symbols continuously
-    setInterval(createSymbol, 10000); // New symbol every 300ms
+    setInterval(createSymbol, 300); // New symbol every 300ms
   </script>
 </body>
 </html>
