@@ -29,6 +29,7 @@
       border-radius: 10px;
       padding: 10px;
       z-index: 2;
+      white-space: nowrap; /* Prevent the text from wrapping onto multiple lines */
     }
 
     audio {
@@ -74,7 +75,7 @@
   </style>
 </head>
 <body>
-  <div class="title"> Radetzky FM </div>
+  <div class="title">Radetzky FM</div>
   <audio controls autoplay>
     <source src="https://katolikusradio.hu:8001/radetzkyfm" type="audio/mpeg">
     A böngésződ nem támogatja az audiólejátszást.
@@ -120,7 +121,7 @@
     }
 
     // Generate symbols continuously
-    setInterval(createSymbol, 10); // New symbol every 300ms
+    setInterval(createSymbol, 50); // New symbol every 300ms
   </script>
 </body>
 </html>
