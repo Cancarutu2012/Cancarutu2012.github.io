@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pázmány Rádió</title>
+
+  <!-- PWA Stuff -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Pázmány Rádió" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url('wallpaper-273x487.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: sans-serif;
+    }
+
+    audio {
+      width: 90%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 8px;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <audio controls autoplay>
+    <source src="http://katolikusradio.hu:9000/pazmany" type="audio/mpeg">
+    A böngésződ nem támogatja az audiólejátszást.
+  </audio>
+
+  <script src="app.js"></script>
+</body>
+</html>
