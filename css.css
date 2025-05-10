@@ -1,0 +1,179 @@
+/* Default CSS */
+
+body { 
+
+     background-color:#FFFFFF;
+     background-image: url('/best_open_bg_half.svg');
+     background-size: 170%;
+     background-position-x:  calc(10vw + 50% );
+     background-repeat: no-repeat;
+    /*background-position-y: -70px;*/
+}
+
+.header {
+        background-color:#E20A1E;
+        width:100%;
+        /*height:88px;*/
+        height: calc(10vh * 1);
+        top:0;
+        border-radius:0;
+        margin-bottom: 0;
+        z-index:-1;
+}
+
+.footer {
+        position:absolute;
+        background-color:#E20A1E;
+        width:100%;
+        /*height:192px;*/
+        height:calc(20vh );
+        bottom:0;
+}
+
+.logo {
+      position:relative;
+      top: calc(max((10vh - 67px),0px));
+}
+
+.topspacer {
+    height:calc(max(calc(10vh - 67px),0px) + calc(100px - 10vh));
+ 
+ }
+ .backgroundbox {
+    
+ 
+  }
+ .contentbox {
+    overflow:auto;
+    max-height: calc(70vh - (max((10vh - 67px),0px) + calc(100px - 10vh)) - 10px);
+            
+ }
+
+.content {
+    color: #252525;
+    margin-top: calc(10vh);
+    float:none;
+}
+
+.content h1 {
+    color: #E20A1E;
+    text-align: left;
+    font:  italic normal 900 40px/40px Montserrat;
+}
+
+ .freq-box {
+   color: #E20A1E;
+           height:130px;
+       margin-top:30px;
+      text-align: left;
+      font: italic normal 900 40px/40px Montserrat;
+      letter-spacing: 0px;
+      opacity: 1;
+      min-width: 350px;
+      max-width: 400px;
+ }
+ 
+ .citybox {
+
+    color: #E20A1E;
+      text-align: left;
+      font: italic normal 900 36px/40px Montserrat;
+      letter-spacing: 0px;
+      opacity: 1;
+      top:35%;
+  }
+
+a:hover{
+    text-decoration: none;
+}
+  
+.freq {
+   color: #E20A1E;
+   font: italic normal 900 27px/40px Montserrat;
+}
+
+.freqbutton a {
+    background-image:url('best_select.svg');
+    background-repeat:no-repeat;
+    background-color: white;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 30px;
+    width: 49px;
+    display: block;
+    position: relative;
+    height: 49px;
+}
+
+.freqbutton a:hover {
+    background-image:url('best_select_hover.svg');
+}
+   
+.freqbuttonrow{
+   height:25px;
+   border-bottom-color:#EDEDED;
+   border-bottom-width:4px;
+   border-bottom-style:solid;
+   margin-right:20px;
+   text-align:right;  
+}
+
+.freqbutton {
+  background-color:white;
+  padding-left:10px;
+  padding-right:10px;
+  width: 69px;
+  height: 30px;
+  left:240px;
+  position:relative;
+}
+ 
+.slogan {
+      /*width: 529px; */
+      position:relative;
+      height: 49px;
+      text-align: left;
+      font: italic normal 900 40px/40px Montserrat;
+      letter-spacing: 0px;
+      color: #FFFFFF;
+      opacity: 1;
+      top:calc(10vh  - 25px);
+ }
+ 
+ .hhh {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+
+.hhh span {
+  margin: 0 15px;
+}
+
+.hhh:before {
+  background: white;
+  height: 4px;
+  flex: 5;
+    content: '';
+}
+
+.hhh:after {
+  background: white;
+  height: 2px;
+  flex: 1;
+    content: '';
+}
+
+.hhh.left:after {
+  flex: 1;
+  width:20%;
+  background: none;
+}
+
+@media only screen and (min-width: 414px) 
+and (max-width: 736px){ 
+    .lo2go {top: 2px; }
+    .contentbox {
+	    max-height: calc(60vh - (max((10vh - 67px),0px) + calc(100px - 10vh)) - 10px);            
+    }
+}

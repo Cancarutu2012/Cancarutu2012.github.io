@@ -1,137 +1,105 @@
-<!DOCTYPE html>
-<html lang="hu">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Radetzky FM</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:locale" content="hu_HU">
+    <meta property="og:site_name" content="Radetzky FM">
+    <meta property="og:title" content="Radetzky FM">
+    <meta property="og:description" content="Radetzky FM online hallgatás">
+    <meta property="og:type" content="website">
+    <title>Radetzky FM</title>
+    <link rel="icon" href="radetzkyfm_logo_favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,900&amp;display=swap" rel="stylesheet">
+    <link href="css.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript">
+        function togglePlay(station_id) {
+            var audiotag = $("#" + station_id).get(0);
+            var audiosource = $("#" + station_id + "_source").get(0);
+            var url = audiotag.getAttribute('data-value');
+            if (audiotag.currentTime > 0 && !audiotag.paused) {
+                stopAll();
+            } else {
+                stopAll();
+                audiosource.src = url;
+                audiotag.load();
+                audiotag.play();
+            }
+        }
 
-  <!-- Manifest for app metadata -->
-  <link rel="manifest" href="manifest.json">
+        function stopAll() {
+            $("audio").trigger("pause");
+            $("audio").currentTime = 0;
+        }
 
-  <!-- Meta tags for iOS fullscreen support -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Radetzky FM">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
+        function audioOnPlaying(station_id) {
+            var animation = $("#anim_" + station_id);
+            var label = $("#label_" + station_id);
+            label.hide();
+            animation.show();
+        }
 
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-      font-family: sans-serif;
-    }
+        function audioOnPause(station_id) {
+            var animation = $("#anim_" + station_id);
+            var label = $("#label_" + station_id);
+            label.hide();
+            animation.hide();
+        }
 
-    /* Static blue gradient background */
-    body {
-      background: linear-gradient(to bottom, #001a4d, #003366); /* Fixed blue shades */
-    }
+        function audioOnPlay(station_id) {
+            var animation = $("#anim_" + station_id);
+            var label = $("#label_" + station_id);
+            animation.hide();
+            label.text("betöltés");
+            label.show().delay(3000).fadeOut(400);
+        }
 
-    .title {
-      font-size: 2rem;
-      color: white;
-      position: absolute;
-      top: 1rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.5);
-      border-radius: 10px;
-      padding: 10px;
-      z-index: 2;
-      white-space: nowrap; /* Prevent text from wrapping */
-    }
-
-    audio {
-      position: absolute;
-      bottom: 2cm;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      max-width: 400px;
-      z-index: 2;
-      background: rgba(255, 255, 255, 0.85);
-      border-radius: 8px;
-      padding: 10px;
-    }
-
-    .background {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-    }
-
-    .symbol {
-      position: absolute;
-      font-size: 20px;
-      opacity: 0.8;
-      color: rgba(255, 255, 255, 0.7);
-      animation: float linear infinite;
-    }
-
-    @keyframes float {
-      from {
-        transform: translate(var(--start-x), var(--start-y));
-        opacity: 1;
-      }
-      to {
-        transform: translate(var(--end-x), var(--end-y));
-        opacity: 0;
-      }
-    }
-  </style>
+        function audioOnError(station_id) {
+            var animation = $("#anim_" + station_id);
+            var label = $("#label_" + station_id);
+            label.hide();
+            animation.hide();
+        }
+    </script>
+    <!--[if IE]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 </head>
 <body>
-  <div class="title">Radetzky FM</div>
-  <audio controls autoplay>
-    <source src="https://katolikusradio.hu:8001/radetzkyfm" type="audio/mpeg">
-    A böngésződ nem támogatja az audiólejátszást.
-  </audio>
-  <div class="background" id="background"></div>
-
-  <script>
-    const background = document.getElementById('background');
-
-    // Function to create symbols with random paths
-    function createSymbol() {
-      const symbol = document.createElement('div');
-      symbol.classList.add('symbol');
-
-      // Randomize symbols (dots, stars, or other shapes)
-      const symbols = ['●', '○'];
-      symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-
-      // Randomize starting and ending positions
-      const startX = Math.random() * window.innerWidth + 'px';
-      const startY = Math.random() * window.innerHeight + 'px';
-      const endX = Math.random() * window.innerWidth + 'px';
-      const endY = Math.random() * window.innerHeight + 'px';
-
-      // Set CSS variables for symbol movement
-      symbol.style.setProperty('--start-x', startX);
-      symbol.style.setProperty('--start-y', startY);
-      symbol.style.setProperty('--end-x', endX);
-      symbol.style.setProperty('--end-y', endY);
-
-      // Randomize size and animation duration
-      const size = Math.random() * 20 + 10; // Random size between 10px and 30px
-      const duration = Math.random() * 10 + 5; // Random duration between 5s and 15s
-      symbol.style.fontSize = `${size}px`;
-      symbol.style.animationDuration = `${duration}s`;
-
-      background.appendChild(symbol);
-
-      // Remove symbol after animation ends to prevent buildup
-      symbol.addEventListener('animationend', () => {
-        background.removeChild(symbol);
-      });
-    }
-
-    // Generate symbols every 50000 milliseconds (50 seconds)
-    setInterval(createSymbol, 50000);
-  </script>
+    <div class="navbar header">
+        <div class="container">
+            <div class="logo mt-1">
+                <img src="radetzkyfm_logo.png" alt="LOGO" height="110">
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid backgroundbox">
+        <div class="row topspacer"></div>
+        <div class="container contentbox">
+            <div id="waveform"></div>
+            <div class="row justify-content-sm-center align-items-center" style="margin-bottom:70px;">
+                <div class="col-sm-2 col-md-4 freq-box ">
+                    <a href="https://katolikusradio.hu:8001/radetzkyfm" target="_blank">
+                        <div class="citybox">Radetzky FM</div>
+                        <div class="freq">Élő Adás</div>
+                    </a>
+                    <div class="freqbuttonrow">
+                        <div class="freqbutton">
+                            <a href="javascript:void(0);" onclick="togglePlay('rfm_live')"></a>
+                        </div>
+                    </div>
+                    <div id="label_rfm_live" style="display:none; color: #DDDDDD;font-size: 20px;display: none;top: -37px;position: relative;"></div>
+                    <img id="anim_rfm_live" src="eq.gif" alt="animation" style="display:none; width:239px;top:-132px;position:relative;z-index:-2;">
+                    <audio controls="" id="rfm_live" onplay="audioOnPlay('rfm_live')" ;="" onplaying="audioOnPlaying('rfm_live');" onerror="audioOnError('rfm_live');" onabort="audioOnError('rfm_live');" data-value="https://katolikusradio.hu:8001/radetzkyfm" onpause="audioOnPause('rfm_live');" preload="none" style="position:relative; top:-220px;display:none">
+                        <source id="rfm_live_source" src="https://katolikusradio.hu:8001/radetzkyfm" type="audio/mp3">
+                    </audio>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </body>
 </html>
