@@ -9,15 +9,9 @@
     <meta property="og:type" content="website">
     <title>Radetzky FM</title>
     <link rel="icon" href="radetzkyfm_logo_favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<link rel="manifest" href="manifest.json">
-	<meta name="theme-color" content="#000000">
+<link rel="manifest" href="/path/to/manifest.json">
 
-	<!-- iOS támogatás -->
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-	<meta name="apple-mobile-web-app-title" content="Radetzky FM">
-	<link rel="apple-touch-icon" href="radetzkyfm_logo_favicon.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com/">
@@ -72,9 +66,6 @@
             animation.hide();
         }
     </script>
-    <!--[if IE]>
-        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
 </head>
 <body>
     <div class="navbar header">
@@ -101,13 +92,50 @@
                     </div>
                     <div id="label_rfm_live" style="display:none; color: #DDDDDD;font-size: 20px;display: none;top: -37px;position: relative;"></div>
                     <img id="anim_rfm_live" src="eq.gif" alt="animation" style="display:none; width:239px;top:-132px;position:relative;z-index:-2;">
-                    <audio controls="" id="rfm_live" onplay="audioOnPlay('rfm_live')" ;="" onplaying="audioOnPlaying('rfm_live');" onerror="audioOnError('rfm_live');" onabort="audioOnError('rfm_live');" data-value="https://katolikusradio.hu:8001/radetzkyfm" onpause="audioOnPause('rfm_live');" preload="none" style="position:relative; top:-220px;display:none">
+                    <audio controls="" id="rfm_live" onplay="audioOnPlay('rfm_live')" onplaying="audioOnPlaying('rfm_live');" onerror="audioOnError('rfm_live');" onabort="audioOnError('rfm_live');" data-value="https://katolikusradio.hu:8001/radetzkyfm" onpause="audioOnPause('rfm_live');" preload="none" style="position:relative; top:-220px;display:none">
                         <source id="rfm_live_source" src="https://katolikusradio.hu:8001/radetzkyfm" type="audio/mp3">
                     </audio>
+                </div>
+                <div class="col-sm-2 col-md-4 freq-box">
+                    <a id="link-button" href="#" target="_blank">
+                        <div class="citybox">MetaAdatOk</div>
+                        <div class="freq" id="dynamic-text">Betöltés...</div>
+                    </a>
+                    <div class="freqbuttonrow">
+                        <div class="freqbutton">
+                            <a href="javascript:void(0)" target="_blank"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-md-4 freq-box">
+                    <a href="javascript:void(0)" target="_blank">
+                        <div class="citybox">Elérhetőségek</div>
+                        <div class="freq">Kattints ide!</div>
+                    </a>
+                    <div class="freqbuttonrow">
+                        <div class="freqbutton">
+                            <a href="https://rmate-rfm-elerhetosegek.vercel.app/" target="_blank"></a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    
+       <script type="text/javascript">
+        $(document).ready(function() {
+    const txtFileUrl = "https://www.dropbox.com/scl/fi/uczeij3nbqb52wlei6or1/CurrentMeta.txt?rlkey=k329uhuisaizc4n13hxugc584&st=oqb3ed4k&dl=1";
+
+    // Betölti a szöveget a .txt fájlból
+    $.get(txtFileUrl)
+        .done(function(data) {
+            // A szöveget beállítja a 'freq' div-be
+            $("#dynamic-text").text(data);
+        })
+        .fail(function() {
+            // Ha nem sikerült betölteni, hibaüzenet
+            $("#dynamic-text").text("Hiba történt");
+        });
+});
+    </script>
 </body>
 </html>
