@@ -73,32 +73,16 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid backgroundbox">
-        <div class="row topspacer"></div>
-        <div class="container contentbox">
-            <div id="waveform"></div>
-            <div class="row justify-content-sm-center align-items-center" style="margin-bottom:70px;">
-                <div class="col-sm-2 col-md-4 freq-box ">
-                    <a href="https://katolikusradio.hu:8001/radetzkyfm" target="_blank">
-                        <div class="citybox">Elő adás</div>
-                        <div class="freq"></div>
-                    </a>
-                    <div class="freqbuttonrow">
-                        <div class="freqbutton">
-                            <a href="javascript:void(0);" onclick="togglePlay('rfm_live')"></a>
-                        </div>
-                    </div>
-                    <div id="label_rfm_live" style="display:none; color: #DDDDDD;font-size: 20px;display: none;top: -37px;position: relative;"></div>
-                    <img id="anim_rfm_live" src="eq.gif" alt="animation" style="display:none; width:239px;top:-132px;position:relative;z-index:-2;">
-                    <audio controls="" id="rfm_live" onplay="audioOnPlay('rfm_live')" onplaying="audioOnPlaying('rfm_live');" onerror="audioOnError('rfm_live');" onabort="audioOnError('rfm_live');" data-value="https://katolikusradio.hu:8001/radetzkyfm" onpause="audioOnPause('rfm_live');" preload="none" style="position:relative; top:-220px;display:none">
-                        <source id="rfm_live_source" src="https://katolikusradio.hu:8001/radetzkyfm" type="audio/mp3">
-                    </audio>
-                </div>
-                
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="container d-flex justify-content-center" style="margin-top: 30px;">
+  <div class="alert alert-danger text-center" role="alert"
+       style="width: 300px; padding: 20px; margin: auto; margin-bottom: 10mm;">
+    <audio controls style="width: 100%;">
+      <source src="https://katolikusradio.hu:8001/radetzkyfm" type="audio/mp3">
+      A böngésződ nem támogatja az audio lejátszót.
+    </audio>
+  </div>
+</div>
+
 
 
 <div class="container" style="margin-top: 30px;">
