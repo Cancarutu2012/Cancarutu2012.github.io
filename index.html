@@ -144,21 +144,18 @@
   <!-- ⚙️ Beállítási panel -->
   <div class="settings-panel" id="settingsPanel">
     <label for="bg-select">Háttér színe:</label>
-    <select id="bg-select">
-      <option value="blue">Kék</option>
-      <option value="purple">Lila-rózsaszín</option>
-      <option value="green">Zöld</option>
-    </select>
+<select id="bg-select">
+  <option value="blue">Kék</option>
+  <option value="purple">Lila-rózsaszín</option>
+  <option value="green">Zöld</option>
+  <option value="redorange">Piros-narancs</option>
+  <option value="sunset">Naplemente</option>
+  <option value="aqua">Akvamarin</option>
+  <option value="midnight">Éjféli kék</option>
+  <option value="gray">Szürke</option>
+</select>
 
-    <label for="symbol-select">Szimbólumok:</label>
-    <select id="symbol-select">
-      <option value="default">○ △ □</option>
-      <option value="stars">★ ✦ ✧</option>
-      <option value="notes">♪ ♫ ♬</option>
-    </select>
 
-    <label for="spawn-interval">Szimbólum sűrűség (ms):</label>
-    <input type="number" id="spawn-interval" value="30000" min="1000" step="1000">
 
     <button class="close-btn" onclick="toggleSettings()">❌</button>
   </div>
@@ -179,7 +176,7 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    let symbolsSet = ['○', '△', '□'];
+    let symbolsSet = [' ', ' ', ' '];
     let symbolSpawnInterval = 30000;
     let spawnIntervalId;
 
@@ -193,15 +190,31 @@
       const body = document.body;
 
       switch (bgValue) {
-        case 'purple':
-          body.style.background = 'linear-gradient(to bottom, #4b006e, #cc3399)';
-          break;
-        case 'green':
-          body.style.background = 'linear-gradient(to bottom, #004d00, #339966)';
-          break;
-        default:
-          body.style.background = 'linear-gradient(to bottom, #001a4d, #003366)';
-      }
+  case 'purple':
+    body.style.background = 'linear-gradient(to bottom, #4b006e, #cc3399)';
+    break;
+  case 'green':
+    body.style.background = 'linear-gradient(to bottom, #004d00, #339966)';
+    break;
+  case 'redorange':
+    body.style.background = 'linear-gradient(to bottom, #ff3300, #ff9900)';
+    break;
+  case 'sunset':
+    body.style.background = 'linear-gradient(to bottom, #ff9966, #ff5e62)';
+    break;
+  case 'aqua':
+    body.style.background = 'linear-gradient(to bottom, #00c6ff, #0072ff)';
+    break;
+  case 'midnight':
+    body.style.background = 'linear-gradient(to bottom, #232526, #414345)';
+    break;
+  case 'gray':
+    body.style.background = 'linear-gradient(to bottom, #666666, #cccccc)';
+    break;
+  default:
+    body.style.background = 'linear-gradient(to bottom, #001a4d, #003366)';
+}
+
 
       const symbolType = document.getElementById('symbol-select').value;
       switch (symbolType) {
@@ -212,7 +225,7 @@
           symbolsSet = ['♪', '♫', '♬'];
           break;
         default:
-          symbolsSet = ['○', '△', '□'];
+          symbolsSet = [' ', ' ', ' '];
       }
 
       const newInterval = parseInt(document.getElementById('spawn-interval').value);
@@ -227,30 +240,33 @@
       const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent("http://katolikusradio.hu:9000/status-json.xsl");
 
       function fetchStreamTitle() {
-        $.getJSON(proxyUrl, function(response) {
-          try {
-            const data = JSON.parse(response.contents);
-            let sources = data.icestats.source;
-            let stream = null;
+  $.getJSON(proxyUrl, function(response) {
+    try {
+      const data = JSON.parse(response.contents);
+      let sources = data.icestats.source;
+      let stream = null;
 
-            if (Array.isArray(sources)) {
-              stream = sources.find(s => s.server_name === "Radetzky FM");
-            } else if (sources.server_name === "Radetzky FM") {
-              stream = sources;
-            }
-
-            if (stream && stream.title) {
-              $("#dynamic-title").text(stream.title);
-            } else {
-              $("#dynamic-title").text("Nincs aktuális cím");
-            }
-          } catch (e) {
-            $("#dynamic-title").text("Hibás válaszformátum");
-          }
-        }).fail(function() {
-          $("#dynamic-title").text("Nem sikerült betölteni");
-        });
+      if (Array.isArray(sources)) {
+        stream = sources.find(s => s.server_name === "Radetzky FM");
+      } else if (sources.server_name === "Radetzky FM") {
+        stream = sources;
       }
+
+      if (stream && stream.title) {
+        $("#dynamic-title").text(stream.title);
+      } else if (!stream) {
+        $("#dynamic-title").text("A rádió offline.");
+      } else {
+        $("#dynamic-title").text("Nincs aktuális cím");
+      }
+    } catch (e) {
+      $("#dynamic-title").text("Hibás válaszformátum");
+    }
+  }).fail(function() {
+    $("#dynamic-title").text("Nem sikerült betölteni");
+  });
+}
+
 
       fetchStreamTitle();
       setInterval(fetchStreamTitle, 1000);
