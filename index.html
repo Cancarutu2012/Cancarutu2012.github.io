@@ -4,11 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Radetzky FM</title>
-
-  <!-- Manifest for app metadata -->
   <link rel="manifest" href="manifest.json">
-
-  <!-- Meta tags for iOS fullscreen support -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Radetzky FM">
@@ -23,9 +19,8 @@
       font-family: sans-serif;
     }
 
-    /* Static blue gradient background */
     body {
-      background: linear-gradient(to bottom, #001a4d, #003366); /* Fixed blue shades */
+      background: linear-gradient(to bottom, #001a4d, #003366);
     }
 
     .title {
@@ -39,7 +34,63 @@
       border-radius: 10px;
       padding: 10px;
       z-index: 2;
-      white-space: nowrap; /* Prevent text from wrapping */
+      white-space: nowrap;
+    }
+
+    .settings-button {
+      position: absolute;
+      bottom: 6.2cm;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      background: rgba(255, 255, 255, 0.85);
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      font-family: sans-serif;
+    }
+
+    .settings-panel {
+      position: absolute;
+      bottom: 7.8cm;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 8px;
+      padding: 15px;
+      z-index: 4;
+      display: none;
+      font-family: sans-serif;
+    }
+
+    .settings-panel label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .settings-panel select,
+    .settings-panel input {
+      width: 100%;
+      margin-top: 5px;
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #aaa;
+    }
+
+    .settings-panel .close-btn {
+      margin-top: 10px;
+      background: #003366;
+      color: white;
+      border: none;
+      padding: 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
     }
 
     audio {
@@ -86,52 +137,156 @@
 </head>
 <body>
   <div class="title">Radetzky FM</div>
+
+  <!-- 🎛️ Téma gomb -->
+  <button class="settings-button" onclick="toggleSettings()">Téma</button>
+
+  <!-- ⚙️ Beállítási panel -->
+  <div class="settings-panel" id="settingsPanel">
+    <label for="bg-select">Háttér színe:</label>
+    <select id="bg-select">
+      <option value="blue">Kék</option>
+      <option value="purple">Lila-rózsaszín</option>
+      <option value="green">Zöld</option>
+    </select>
+
+    <label for="symbol-select">Szimbólumok:</label>
+    <select id="symbol-select">
+      <option value="default">○ △ □</option>
+      <option value="stars">★ ✦ ✧</option>
+      <option value="notes">♪ ♫ ♬</option>
+    </select>
+
+    <label for="spawn-interval">Szimbólum sűrűség (ms):</label>
+    <input type="number" id="spawn-interval" value="30000" min="1000" step="1000">
+
+    <button class="close-btn" onclick="toggleSettings()">❌</button>
+  </div>
+
+  <!-- 📻 Most szól doboz -->
+  <div style="position: absolute; bottom: 4.5cm; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; z-index: 2;
+              background: rgba(255, 255, 255, 0.85); border-radius: 8px; padding: 10px; text-align: center;
+              font-size: 18px; font-family: 'Montserrat', sans-serif; font-weight: bold;">
+    Most szól: <span id="dynamic-title">Betöltés...</span>
+  </div>
+
   <audio controls autoplay>
     <source src="https://katolikusradio.hu:8001/radetzkyfm" type="audio/mpeg">
     A böngésződ nem támogatja az audiólejátszást.
   </audio>
+
   <div class="background" id="background"></div>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
+    let symbolsSet = ['○', '△', '□'];
+    let symbolSpawnInterval = 30000;
+    let spawnIntervalId;
+
+    function toggleSettings() {
+      const panel = document.getElementById('settingsPanel');
+      panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function applySettings() {
+      const bgValue = document.getElementById('bg-select').value;
+      const body = document.body;
+
+      switch (bgValue) {
+        case 'purple':
+          body.style.background = 'linear-gradient(to bottom, #4b006e, #cc3399)';
+          break;
+        case 'green':
+          body.style.background = 'linear-gradient(to bottom, #004d00, #339966)';
+          break;
+        default:
+          body.style.background = 'linear-gradient(to bottom, #001a4d, #003366)';
+      }
+
+      const symbolType = document.getElementById('symbol-select').value;
+      switch (symbolType) {
+        case 'stars':
+          symbolsSet = ['★', '✦', '✧'];
+          break;
+        case 'notes':
+          symbolsSet = ['♪', '♫', '♬'];
+          break;
+        default:
+          symbolsSet = ['○', '△', '□'];
+      }
+
+      const newInterval = parseInt(document.getElementById('spawn-interval').value);
+      if (!isNaN(newInterval) && newInterval >= 1000) {
+        clearInterval(spawnIntervalId);
+        symbolSpawnInterval = newInterval;
+        spawnIntervalId = setInterval(createSymbol, symbolSpawnInterval);
+      }
+    }
+
+    $(document).ready(function () {
+      const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent("http://katolikusradio.hu:9000/status-json.xsl");
+
+      function fetchStreamTitle() {
+        $.getJSON(proxyUrl, function(response) {
+          try {
+            const data = JSON.parse(response.contents);
+            let sources = data.icestats.source;
+            let stream = null;
+
+            if (Array.isArray(sources)) {
+              stream = sources.find(s => s.server_name === "Radetzky FM");
+            } else if (sources.server_name === "Radetzky FM") {
+              stream = sources;
+            }
+
+            if (stream && stream.title) {
+              $("#dynamic-title").text(stream.title);
+            } else {
+              $("#dynamic-title").text("Nincs aktuális cím");
+            }
+          } catch (e) {
+            $("#dynamic-title").text("Hibás válaszformátum");
+          }
+        }).fail(function() {
+          $("#dynamic-title").text("Nem sikerült betölteni");
+        });
+      }
+
+      fetchStreamTitle();
+      setInterval(fetchStreamTitle, 1000);
+
+      document.getElementById('bg-select').addEventListener('change', applySettings);
+      document.getElementById('symbol-select').addEventListener('change', applySettings);
+      document.getElementById('spawn-interval').addEventListener('change', applySettings);
+    });
+
     const background = document.getElementById('background');
 
-    // Function to create symbols with random paths
     function createSymbol() {
       const symbol = document.createElement('div');
       symbol.classList.add('symbol');
+      symbol.textContent = symbolsSet[Math.floor(Math.random() * symbolsSet.length)];
 
-      // Randomize symbols (dots, stars, or other shapes)
-      const symbols = ['●', '○'];
-      symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-
-      // Randomize starting and ending positions
       const startX = Math.random() * window.innerWidth + 'px';
       const startY = Math.random() * window.innerHeight + 'px';
       const endX = Math.random() * window.innerWidth + 'px';
       const endY = Math.random() * window.innerHeight + 'px';
 
-      // Set CSS variables for symbol movement
       symbol.style.setProperty('--start-x', startX);
       symbol.style.setProperty('--start-y', startY);
       symbol.style.setProperty('--end-x', endX);
       symbol.style.setProperty('--end-y', endY);
 
-      // Randomize size and animation duration
-      const size = Math.random() * 20 + 10; // Random size between 10px and 30px
-      const duration = Math.random() * 10 + 5; // Random duration between 5s and 15s
+      const size = Math.random() * 20 + 10;
+      const duration = Math.random() * 10 + 5;
       symbol.style.fontSize = `${size}px`;
       symbol.style.animationDuration = `${duration}s`;
 
       background.appendChild(symbol);
-
-      // Remove symbol after animation ends to prevent buildup
-      symbol.addEventListener('animationend', () => {
-        background.removeChild(symbol);
-      });
+      symbol.addEventListener('animationend', () => background.removeChild(symbol));
     }
 
-    // Generate symbols every 50000 milliseconds (50 seconds)
-    setInterval(createSymbol, 50000);
+    spawnIntervalId = setInterval(createSymbol, symbolSpawnInterval);
   </script>
 </body>
 </html>
