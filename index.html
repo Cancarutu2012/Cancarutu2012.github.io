@@ -51,6 +51,20 @@
       cursor: pointer;
       font-family: sans-serif;
     }
+     .settings-button1 {
+      position: absolute;
+      bottom: 8.99cm;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      background: rgba(255, 255, 255, 0.85);
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      font-family: sans-serif;
+    }
 
     .settings-panel {
       position: absolute;
@@ -161,7 +175,8 @@
     <button class="close-btn" onclick="toggleSettings()">❌</button>
   </div>
 
-  
+  <button class="settings-button1" onclick="fetchStreamTitle()">Frissítés</button>
+
    <button class="settings-button" onclick="toggleSettings()">Téma</button>
   
 
