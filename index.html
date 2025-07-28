@@ -217,24 +217,28 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
 
+    alert("Üdvözöl a RadetzkyFM!");
+
     let audio = null;
 
 function fixAudioPlayer() {
-  // Ha már van példány, először állítsuk le
-  if (audio && !audio.paused) {
-    audio.pause();
-    audio.src = '';
-    audio.load();
+  const audioElement = document.querySelector("audio");
+
+  if (!audioElement) {
+    alert("Nem található audioelem.");
+    return;
   }
 
-  // Új példány létrehozása
-  audio = new Audio("https://katolikusradio.hu:8001/radetzkyfm");
-  audio.autoplay = true;
-  audio.play().then(() => {
-    console.log("Hang elindítva!");
+  // Állítsuk le, ürítsük ki, majd újratöltés és újraindítás
+  audioElement.pause();
+  audioElement.src = "https://katolikusradio.hu:8001/radetzkyfm";
+  audioElement.load();
+
+  audioElement.play().then(() => {
+    console.log("Lejátszó újratöltve és elindítva.");
   }).catch(err => {
-    console.warn("Nem sikerült elindítani a hangot:", err);
-    alert("Hibba, kérlek próbáld újra.");
+    console.error("Hiba a lejátszó újraindításakor:", err);
+    alert("Nem sikerült újraindítani a hangot. Koppints újra.");
   });
 }
 
