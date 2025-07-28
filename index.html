@@ -175,12 +175,12 @@
     <button class="close-btn" onclick="toggleSettings()">❌</button>
   </div>
 
-  <button class="settings-button1" onclick="runAndReload()">Frissít</button>
+  <button class="settings-button1" onclick="toggleSettings1()">Frissít</button>
 
 
   <div class="settings-panel1" id="settingsPanel1">
-    <label for="bg-select"Válasszon:</label>
-<select id="bg-select">
+    <label for="b1g-select"Válasszon:</label>
+<select id="b1g-select">
   <option value="remeta">Zeneinfó lekérése</option>
   <option value="reweb">App újraindítása</option>
   
@@ -189,7 +189,7 @@
 
     
 
-    <button class="close-btn" onclick="toggleSettings()">❌</button>
+    <button class="close-btn" onclick="toggleSettings1()">❌</button>
   </div>
 
    <button class="settings-button" onclick="toggleSettings()">Téma</button>
@@ -237,7 +237,11 @@
       const panel = document.getElementById('settingsPanel');
       panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
     }
-
+function toggleSettings1() {
+      const panel = document.getElementById('settingsPanel1');
+      panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+    }
+    
     function applySettings() {
       const bgValue = document.getElementById('bg-select').value;
       const body = document.body;
@@ -267,6 +271,21 @@
   default:
     body.style.background = 'linear-gradient(to bottom, #001a4d, #003366)';
 }
+
+      function applySettings1() {
+  const bgValue = document.getElementById('b1g-select').value;
+  const body = document.body;
+
+  switch (bgValue) {
+    case 'remeta':
+      fetchStreamTitle();
+      break;
+    case 'reweb':
+      location.reload();
+      break;
+  }
+}
+
 
 
       const symbolType = document.getElementById('symbol-select').value;
