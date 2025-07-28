@@ -218,6 +218,36 @@
   <script>
 
 
+    if ('serviceWorker' in navigator && 'Notification' in window) {
+  navigator.serviceWorker.register('/sw.js').then(reg => {
+    console.log('Service Worker regisztrálva', reg);
+
+    // Kérjük az értesítési engedélyt
+    Notification.requestPermission().then(permission => {
+      if(permission === 'granted') {
+        console.log('Értesítési engedély megadva');
+
+        // Küldjünk egy kezdő értesítést (opcionális)
+        reg.showNotification("Üdvözöl a RadetzkyFM!");
+
+        // Indítsuk el az időzítőt 30 percre a SW-on belül
+        reg.active.postMessage({command: 'start-notifications'});
+      } else {
+        console.log('Értesítési engedély megtagadva');
+      }
+    });
+  }).catch(e => console.error('Service Worker regisztráció sikertelen', e));
+
+  // Üzenetek fogadása a SW-től (opcionális)
+  navigator.serviceWorker.addEventListener('message', event => {
+    console.log('SW üzenet:', event.data);
+  });
+} else {
+  console.log('Service Worker vagy Notification API nem támogatott');
+}
+
+
+
     let audio = null;
 
     
