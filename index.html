@@ -177,6 +177,21 @@
 
   <button class="settings-button1" onclick="runAndReload()">Frissít</button>
 
+
+  <div class="settings-panel1" id="settingsPanel1">
+    <label for="bg-select"Válasszon:</label>
+<select id="bg-select">
+  <option value="remeta">Zeneinfó lekérése</option>
+  <option value="reweb">App újraindítása</option>
+  
+</select>
+
+
+    
+
+    <button class="close-btn" onclick="toggleSettings()">❌</button>
+  </div>
+
    <button class="settings-button" onclick="toggleSettings()">Téma</button>
   
 
@@ -202,6 +217,12 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
+
+    function resumeAudio() {
+  if (audioElement.paused) {
+    audioElement.play().catch((e) => console.warn("Audio error:", e));
+  }
+}
 
     async function runAndReload() {
     await fetchStreamTitle();  // Megvárja, hogy lefusson
