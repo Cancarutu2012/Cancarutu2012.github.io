@@ -267,10 +267,12 @@
         $("#dynamic-title").text("Nincs aktuális cím");
       }
     } catch (e) {
-      $("#dynamic-title").text("A rádió offline / Betöltés sikertelen.");
+      $("#dynamic-title").text("--");
+      $("#dynamic-title1").text("Jelenleg a rádió offline.");
     }
   }).fail(function() {
-    $("#dynamic-title").text("A rádió offline / Betöltés sikertelen.");
+    $("#dynamic-title").text("--");
+    $("#dynamic-title1").text("A betöltés sikertelen.");
   });
 }
 
