@@ -261,7 +261,8 @@
       if (stream && stream.title) {
         $("#dynamic-title").text(stream.title);
       } else if (!stream) {
-        $("#dynamic-title").text("A rádió offline / Betöltés sikertelen.");
+        $("#dynamic-title").text("--");
+        $("#dynamic-title1").text("Jelenleg a rádió offline.");
       } else {
         $("#dynamic-title").text("Nincs aktuális cím");
       }
