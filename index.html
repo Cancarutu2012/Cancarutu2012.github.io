@@ -255,12 +255,12 @@
       if (stream && stream.title) {
         $("#dynamic-title").text(stream.title);
       } else if (!stream) {
-        $("#dynamic-title").text("A rádió offline.");
+        $("#dynamic-title").text("RadetzkyFM - Mindig a legjobbak!");
       } else {
         $("#dynamic-title").text("Nincs aktuális cím");
       }
     } catch (e) {
-      $("#dynamic-title").text("Hibás válaszformátum");
+      $("#dynamic-title").text("RadetzkyFM - Mindig a legjobbak!");
     }
   }).fail(function() {
     $("#dynamic-title").text("RadetzkyFM - Mindig a legjobbak!");
