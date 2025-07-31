@@ -181,7 +181,6 @@
   <div class="settings-panel" id="settingsPanel1">
     <label for="b1g-select"Válasszon:</label>
 <button class="close-btn" onclick="location.reload()">App újratöltése</button>
-      <button class="close-btn" onclick="fetchStreamTitle()">Zeneinfó újratöltése</button>
       <button class="close-btn" onclick="fixAudioPlayer()">Lejátszó újratöltése</button>
 
 
@@ -192,20 +191,7 @@
   </div>
 
    <button class="settings-button" onclick="toggleSettings()">Téma</button>
-  
 
-  <div style="position: absolute; bottom: 6.5cm; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; z-index: 2;
-              background: rgba(255, 255, 255, 0.85); border-radius: 8px; padding: 10px; text-align: center;
-              font-size: 18px; font-family: 'Montserrat', sans-serif; font-weight: bold;">
-    <span id="dynamic-title1">Műroson:</span>
-  </div>
-
-  <!-- 📻 Most szól doboz -->
-  <div style="position: absolute; bottom: 4.5cm; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; z-index: 2;
-              background: rgba(255, 255, 255, 0.85); border-radius: 8px; padding: 10px; text-align: center;
-              font-size: 18px; font-family: 'Montserrat', sans-serif; font-weight: bold;">
-    <span id="dynamic-title">Betöltés...</span>
-  </div>
 
   <audio controls autoplay>
     <source src="https://katolikusradio.hu:8001/radetzkyfm" type="audio/mpeg">
