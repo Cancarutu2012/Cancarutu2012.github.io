@@ -381,10 +381,10 @@ function toggleSettings1() {
       }
     }
 
-    $(document).ready(function () {
+    function fetchStreamTitle() {
       const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent("http://katolikusradio.hu:9000/status-json.xsl");
 
-      function fetchStreamTitle() {
+      
   $.getJSON(proxyUrl, function(response) {
     try {
       console.log('Proxy response:', response);
@@ -416,7 +416,7 @@ function toggleSettings1() {
   });
 }
 
-
+$(document).ready(function () {
       fetchStreamTitle();
       setInterval(fetchStreamTitle, 10000);
 
