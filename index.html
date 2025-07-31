@@ -113,6 +113,24 @@ d<!DOCTYPE html>
       padding: 10px;
     }
 
+    .metadata-box {
+  position: absolute;
+  bottom: 3.5cm;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  font-family: sans-serif;
+  z-index: 2;
+  color: #000;
+  display: none; /* alapból el van rejtve */
+}
+
+
     .background {
       position: absolute;
       top: 0;
@@ -162,6 +180,8 @@ d<!DOCTYPE html>
   <option value="gray">Szürke</option>
 </select>
 
+    <button class="settings-button" onclick="toggleMetadata()">Zeneinformáció Be-KI</button>
+
 
     
 
@@ -189,6 +209,9 @@ d<!DOCTYPE html>
 </div>
 
 
+<div class="metadata-box" id="metadataBox">
+  <div id="dynamic-title1">Betöltés...</div>
+</div>
 
   <audio controls autoplay>
     <source src="https://katolikusradio.hu:8001/radetzkyfm" type="audio/mpeg">
@@ -199,6 +222,12 @@ d<!DOCTYPE html>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
+
+    function toggleMetadata() {
+  const box = document.getElementById('metadataBox');
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+}
+
 
 
     if ('serviceWorker' in navigator && 'Notification' in window) {
@@ -364,21 +393,19 @@ function toggleSettings1() {
       }
 
       if (stream && stream.title) {
-        $("#dynamic-title").text(stream.title);
-        $("#dynamic-title1").text("Műsoron:");
+        $("#dynamic-title").text(stream.title)
       } else if (!stream) {
         $("#dynamic-title").text("--");
-        $("#dynamic-title1").text("Jelenleg a rádió offline.");
       } else {
         $("#dynamic-title").text("Nincs aktuális cím");
       }
     } catch (e) {
       $("#dynamic-title").text("--");
-      $("#dynamic-title1").text("Jelenleg a rádió offline.");
+      
     }
   }).fail(function() {
     $("#dynamic-title").text("--");
-    $("#dynamic-title1").text("A betöltés sikertelen.");
+    
   });
 }
 
