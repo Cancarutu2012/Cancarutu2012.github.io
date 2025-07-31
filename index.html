@@ -127,7 +127,7 @@ d<!DOCTYPE html>
   font-family: sans-serif;
   z-index: 2;
   color: #000;
-  display: none; /* alapból el van rejtve */
+  display: none; /* alapból rejtve */
 }
 
 
@@ -180,7 +180,7 @@ d<!DOCTYPE html>
   <option value="gray">Szürke</option>
 </select>
 
-    <button class="settings-button" onclick="toggleMetadata()">Zeneinformáció Be-KI</button>
+    <button class="close-btn" onclick="toggleMetadata()">Zeneinformáció Be-KI</button>
 
 
     
@@ -210,7 +210,7 @@ d<!DOCTYPE html>
 
 
 <div class="metadata-box" id="metadataBox">
-  <div id="dynamic-title1">Betöltés...</div>
+  <div id="dynamic-title">Betöltés...</div>
 </div>
 
   <audio controls autoplay>
@@ -225,7 +225,12 @@ d<!DOCTYPE html>
 
     function toggleMetadata() {
   const box = document.getElementById('metadataBox');
-  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+  if (!box) {
+    console.error('Nem található a metadataBox elem!');
+    return;
+  }
+  box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'block' : 'none';
+}
 }
 
 
