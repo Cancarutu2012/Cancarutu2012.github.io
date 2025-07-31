@@ -387,7 +387,9 @@ function toggleSettings1() {
       function fetchStreamTitle() {
   $.getJSON(proxyUrl, function(response) {
     try {
+      console.log('Proxy response:', response);
       const data = JSON.parse(response.contents);
+      console.log('Parsed data:', data);
       let sources = data.icestats.source;
       let stream = null;
 
@@ -398,19 +400,19 @@ function toggleSettings1() {
       }
 
       if (stream && stream.title) {
-        $("#dynamic-title").text(stream.title)
+        $("#dynamic-title").text(stream.title);
       } else if (!stream) {
         $("#dynamic-title").text("--");
       } else {
         $("#dynamic-title").text("Nincs aktuális cím");
       }
     } catch (e) {
+      console.error('JSON parse error:', e);
       $("#dynamic-title").text("--");
-      
     }
   }).fail(function() {
+    console.error('AJAX request failed');
     $("#dynamic-title").text("--");
-    
   });
 }
 
